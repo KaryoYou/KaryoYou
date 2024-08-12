@@ -1,7 +1,7 @@
 <h1 align="center"> 叻仔！叫我 KaryoYou 🐵 </h1>
 <h3 align="center"> 我喺唔会扑街嘅PoorGuy </h3>
 
-<p align="left"> <img src="https://komarev.com/ghpvc/?username=KaryoYou&label=%20%20%20%20执返剂 ↝ %20%20%20%20&color=0e75b6&style=flat" alt="KaryoYou" />
+<p align="left"> <img src="https://komarev.com/ghpvc/?username=KaryoYou&label=%20%20%20%20执返剂↝%20%20%20%20&color=0e75b6&style=flat" alt="KaryoYou" />
 
   - ⚡ 前端後端都識...條鉄，除開 C# 同埋 Sql Server, 乜都唔識。
   - ⚡ 學習嗫，就跟住哩個大佬 <a href="https://github.com/Memoyu" target="_blank">Memoyu</a>！

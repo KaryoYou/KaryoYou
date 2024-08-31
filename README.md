@@ -1,5 +1,5 @@
 <h1 align="center"> 叻仔！🐵记住我ID： KaryoYou </h1>
-<h3 align="center"> 一般中文昵称都喺：漫游，我见过一句说话好钟意，想同你分享：One code, thing twice.</h3>
+<h3 align="center"> 一般中文昵称都喺：漫游，我见过一句说话好钟意，想同你分享：One code, think twice.</h3>
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=KaryoYou&label=%20%20%20%20执返剂↝%20%20%20%20&color=0e75b6&style=flat" alt="KaryoYou" />
 

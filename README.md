@@ -1,12 +1,12 @@
-<h1 align="center"> 叻仔！叫我 KaryoYou 🐵 </h1>
-<h3 align="center"> 我喺唔会扑街嘅PoorGuy </h3>
+<h1 align="center"> 叻仔！🐵记住我ID： KaryoYou </h1>
+<h3 align="center"> 一般中文昵称都喺：漫游，我见过一句说话好钟意，想同你分享：One code, thing twice.</h3>
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=KaryoYou&label=%20%20%20%20执返剂↝%20%20%20%20&color=0e75b6&style=flat" alt="KaryoYou" />
 
-  - ⚡ 前端後端都識...條鉄，除開 C# 同埋 Sql Server, 乜都唔識。
-  - ⚡ 學習嗫，就跟住哩個大佬 <a href="https://github.com/Memoyu" target="_blank">Memoyu</a>！
+  - ⚡ 前端後端都識...亿少少，C# 后端喺我学习嘅主要路线。目前很多时间喺写紧 WPF Windows客户端，.Net Framework 4.8.1 版本嘅，因为兼容性问题，企业嘅主要生产力廉价 Win7 都跑得起。 目前服务器使用 Windows Server 2008 R2，数据库都喺 SQL Server 2008 R2，常用开发工具： VS、VS Code 和 SMSS。VS 人嘚有写好嘅 Nuget 包，我使嘚数据库连接工具就哩個 FreeSQL，使用方法就入人嘚官网里头查开发文档，边度唔識点边度。
+  - ⚡ 平时學習就跟住哩個大佬 <a href="https://github.com/Memoyu" target="_blank">Memoyu</a>！
   - ✍️ 哩個就喺我博客 <a href="https://www.cnblogs.com/KaryoYou" target="_blank">KaryoYou's Blog</a>
-  - ✉️ 乜事千奇唔嚟揾我, 扮嘢幾辛苦，搵食啫！我想㗎？👉 KaryoYou@outlook.com
+  - ✉️ 乜事揾我，email 咯，得闲我会睇嘅，唔得闲？搵食啫！我想㗎？👉 KaryoYou@outlook.com
 
 </br>
 </br>

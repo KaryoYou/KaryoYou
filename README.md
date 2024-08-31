@@ -3,7 +3,7 @@
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=KaryoYou&label=%20%20%20%20执返剂↝%20%20%20%20&color=0e75b6&style=flat" alt="KaryoYou" />
 
-  - ⚡ 前端後端都識...亿少少，C# 后端喺我学习嘅主要路线。目前很多时间喺写紧 WPF, .Net Framework 4.8.1 版本嘅 Windows 客户端，因为兼容性问题嘛，企业主要生产电脑都喺 Win7 系统，.Net FW 481 跑得起。 目前服务器使用 Windows Server 2008 R2，数据库都喺 SQL Server 2008 R2，常用开发工具： VS、VS Code 和 SMSS。VS 人嘚有写好嘅 Nuget 包，我使嘚数据库连接工具就哩個 FreeSQL，使用方法就入人嘚官网里头查开发文档，边度唔識点边度。
+  - ⚡ 前端後端都識...亿少少，C# 后端喺我学习嘅主要路线。目前很多时间喺写紧 WPF, .Net Framework 4.8.1 版本嘅 Windows 客户端，因为兼容性问题嘛，企业主要生产电脑都喺 Win7 系统，.Net FW 481 跑得起。 目前服务器使用 Windows Server 2008 R2，数据库都喺 SQL Server 2008 R2，常用开发工具： VS、VS Code 和 SMSS。VS 人嘚有写好嘅 Nuget 包，我使嘅数据库连接工具就哩個 FreeSQL，使用方法入官网查开发文档，边度唔識点边度。
   - ⚡ 平时學習就跟住哩個大佬 <a href="https://github.com/Memoyu" target="_blank">Memoyu</a>！
   - ✍️ 哩個就喺我博客 <a href="https://www.cnblogs.com/KaryoYou" target="_blank">KaryoYou's Blog</a>
   - ✉️ 乜事揾我，email 咯，得闲我会睇嘅，唔得闲？搵食啫！我想㗎？👉 KaryoYou@outlook.com

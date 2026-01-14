@@ -29,9 +29,9 @@
 <!--github 数据统计-->
 <div align="center">
   <a href="https://github.com/KaryoYou" target="_blank">
-    <img src="https://github-readme-stats.vercel.app/api?username=KaryoYou&hide_title=true&hide_border=ture&layout=compact"  height="150" alt="stats graph"  />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs?username=KaryoYou&hide_title=true&hide_border=ture&layout=compact" height="150" alt="languages graph"  />
-   </a>
+    <img src="https://github-readme-stats.vercel.app/api?username=KaryoYou&hide_title=true&hide_border=true&layout=compact" height="150" alt="stats graph" />
+    <img src="https://github-readme-stats.vercel.app/api/top-langs?username=KaryoYou&hide_title=true&hide_border=true&layout=compact" height="150" alt="languages graph" />
+  </a>
 </div>
 
 <!--提交记录贪吃蛇-->

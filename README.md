@@ -29,8 +29,8 @@
 <!--github 数据统计-->
 <div align="center">
   <a href="https://github.com/KaryoYou" target="_blank">
-    <img src="https://github-readme-stats.vercel.app/api?username=KaryoYou&hide_title=true&hide_border=true&layout=compact" height="150" alt="stats graph" />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs?username=KaryoYou&hide_title=true&hide_border=true&layout=compact" height="150" alt="languages graph" />
+    <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=KaryoYou&theme=github" height="150" />
+    <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=KaryoYou&theme=github" height="150" />
   </a>
 </div>
 

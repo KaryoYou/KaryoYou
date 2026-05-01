@@ -13,29 +13,40 @@
 </br>
 </br>
 
-<!--技能图标-->
-<div align="center">
-     <img alt="csharp" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg">
-     <img alt="dotnetcore" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dotnetcore/dotnetcore-original.svg">
-     <img alt="rust" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/rust/rust-original.svg">
-     <img alt="javascript" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
-     <img alt="react" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
-     <img alt="vuejs" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original.svg">
-     <img alt="html5" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg">
-     <img alt="css3" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg">
-     <img alt="docker" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg">
-     <img alt="azure" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/azure/azure-original.svg">
-</div>
 
-<!--github 数据统计-->
 <div align="center">
-  <a href="https://github.com/KaryoYou" target="_blank">
-    <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=KaryoYou&theme=github" height="150" />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=KaryoYou&layout=compact&hide_border=true&theme=default" height="150" />
-  </a>
-</div>
-</br>
-<!--提交记录贪吃蛇-->
-<div align="center">
-  <img align="center" alt="snake" src="https://raw.githubusercontent.com/KaryoYou/KaryoYou/output/github-contribution-grid-snake.svg">
+  <table border="0" cellpadding="0" cellspacing="0" style="border:0;  width:auto;">
+    <!--技能图标-->
+    <tr><td colspan="10" align="center"><a>技能图标</a></td></td></tr>
+    <tr>
+      <td align="center" style="padding:4px;"><img alt="csharp" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg"></td>
+      <td align="center" style="padding:4px;"><img alt="dotnetcore" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dotnetcore/dotnetcore-original.svg"></td>
+      <td align="center" style="padding:4px;"><img alt="python" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg"></td>
+      <td align="center" style="padding:4px;"><img alt="docker" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg"></td>
+      <td align="center" style="padding:4px;"><img alt="azure" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/azure/azure-original.svg"></td>
+      <td align="center" style="padding:4px;"><img alt="oracle" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/oracle/oracle-original.svg"></td>
+      <td align="center" style="padding:4px;"><img alt="mircrosoftsqlserver" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/microsoftsqlserver/microsoftsqlserver-original.svg"></td>
+      <td align="center" style="padding:4px;"><img alt="markdown" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/markdown/markdown-original.svg"></td>
+      <td align="center" style="padding:4px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="45" height="33">
+          <rect width="100" height="100" rx="20" fill="#0052CC"/>
+          <text x="50" y="65" font-family="Arial" font-size="40" fill="white" text-anchor="middle">4GL</text>
+        </svg>
+      </td>
+      <td align="center" style="padding:4px;"><img alt="excel" height="33" width="45" src="https://logo-teka.com/wp-content/uploads/2026/03/microsoft-excel-icon-logo.svg"></td>
+    </tr>
+    <!--github 数据统计-->
+    <tr><td colspan="10" align="center"><a>数据统计</a></td></td></tr>
+    <tr>
+      <td colspan="5" align="center" style="border:0; padding:10px 0; background:transparent;">
+        <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=KaryoYou&theme=github" height="140"/>
+      </td>
+      <td colspan="5" align="center" style="border:0; padding:10px 0; background:transparent;">
+        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=KaryoYou&layout=compact&hide_border=true&theme=default" height="150"/>
+      </td>
+    </tr>
+    <!--提交记录贪吃蛇-->
+    <tr><td colspan="10" align="center"><a>提交记录</a></td></td></tr>
+    <tr><td colspan="10" align="center"><img align="center" alt="snake" src="https://raw.githubusercontent.com/KaryoYou/KaryoYou/output/github-contribution-grid-snake.svg"></td></td></tr>
+  </table>
 </div>

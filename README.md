@@ -1,21 +1,18 @@
-<h1 align="center"> ID： KaryoYou </h1>
-<h3 align="center"> 昵称：漫游。</h3>
-<h3 align="center"> 叻仔！🐵记住：One code, think twice.</h3>
-<p align="center">
-  <img src="https://komarev.com/ghpvc/?username=KaryoYou&label=%20%20%20%20执返剂↝%20%20%20%20&color=0e75b6&style=flat" alt="KaryoYou" />
-</p>
+<h1 align="center"> 
+  <a>KaryoYou</a> 
+  <img src="https://komarev.com/ghpvc/?username=KaryoYou&label=%20views%20&color=0e75b6&style=flat" alt="KaryoYou"/>
+</h1>
+<h3 align="center">Remember：Code One, Think Twice.</h3>
 <ul align="center">
-  <a>⚡ 哩個先系大佬: <a href="https://github.com/Memoyu" target="_blank">Memoyu's Github</a></a><br/>
-  <a>✍️ 我乜都唔识: <a href="https://www.cnblogs.com/KaryoYou" target="_blank">KaryoYou's Blog</a></a><br/>
+  <a>📃My Blog: <a href="https://www.cnblogs.com/KaryoYou" target="_blank">KaryoYou's Blog</a></a><br/>
+  <a>🐵Tech Support: <a href="https://github.com/Memoyu" target="_blank">Memoyu's Github</a></a><br/>
 </ul>
-<br/>
-<br/>
 <br/>
 <div align="center">
   <table border="0" cellpadding="0" cellspacing="0" style="border:0; width:auto;">
     <!--技能图标-->
     <tr>
-      <td colspan="10" align="center"><strong>技能图标</strong></td>
+      <td colspan="10" align="center"><strong>Tech Stack</strong></td>
     </tr>
     <tr>
       <td align="center" style="padding:4px;"><img alt="csharp" height="33" width="45" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg"></td>
@@ -36,7 +33,7 @@
     </tr>
     <!--github 数据统计-->
     <tr>
-      <td colspan="10" align="center"><strong>数据统计</strong></td>
+      <td colspan="10" align="center"><strong>Code Stats</strong></td>
     </tr>
     <tr>
       <td colspan="5" align="center" style="border:0; padding:10px 0;">
@@ -48,7 +45,7 @@
     </tr>
     <!--提交记录贪吃蛇-->
     <tr>
-      <td colspan="10" align="center"><strong>提交记录</strong></td>
+      <td colspan="10" align="center"><strong>Commit History</strong></td>
     </tr>
     <tr>
       <td colspan="10" align="center">

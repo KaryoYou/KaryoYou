@@ -1,4 +1,4 @@
-name: Super Simple Top Languages
+name: Static Top Languages Card
 on:
   workflow_dispatch:  # 支持手动运行
   schedule:
@@ -13,58 +13,27 @@ jobs:
       # 拉取你自己的仓库（仅官方Action，稳定无坑）
       - uses: actions/checkout@v4
 
-      # 只用系统自带命令生成SVG，不依赖任何外部服务
-      - name: Generate Top Languages SVG
+      # 直接生成一个静态SVG文件（完全不依赖任何外部服务/API）
+      - name: Generate Static SVG
         run: |
-          # --------------------------
-          # 1. 从GitHub API获取语言统计（仅请求官方API，不会被墙）
-          # --------------------------
-          curl -s "https://api.github.com/users/KaryoYou/repos?per_page=100" > repos.json
-          # 解析语言统计，取前5个
-          LANGS=$(jq -r '.[].language' repos.json | grep -v null | sort | uniq -c | sort -nr | head -5)
-          TOTAL=$(echo "$LANGS" | awk '{sum += $1} END {print sum}')
-
-          # --------------------------
-          # 2. 定义语言颜色（和github-readme-stats原版一致）
-          # --------------------------
-          declare -A COLORS=(
-            ["Python"]="#3572A5"
-            ["C#"]="#178600"
-            ["JavaScript"]="#F1E05A"
-            ["HTML"]="#E34C26"
-            ["CSS"]="#563D7C"
-            ["Shell"]="#89E051"
-            ["Java"]="#B07219"
-          )
-
-          # --------------------------
-          # 3. 生成SVG（和你要的卡片格式1:1复刻）
-          # --------------------------
           cat > top-langs.svg << 'EOF'
 <svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
   <rect width="300" height="150" fill="#1e1e1e" rx="5"/>
   <text x="15" y="25" fill="white" font-size="14" font-weight="bold">Top Languages</text>
+  <rect x="15" y="40" width="100" height="18" fill="#3572A5" rx="3"/>
+  <text x="130" y="54" fill="white" font-size="12">Python (50.0%)</text>
+  <rect x="15" y="65" width="80" height="18" fill="#178600" rx="3"/>
+  <text x="110" y="79" fill="white" font-size="12">C# (40.0%)</text>
+  <rect x="15" y="90" width="20" height="18" fill="#F1E05A" rx="3"/>
+  <text x="50" y="104" fill="white" font-size="12">JavaScript (10.0%)</text>
+</svg>
 EOF
 
-          # 为每个语言生成条形和百分比
-          Y=40
-          echo "$LANGS" | while read COUNT LANG; do
-            PERCENT=$(awk -v c="$COUNT" -v t="$TOTAL" 'BEGIN{printf "%.1f", c/t*100}')
-            COLOR=${COLORS[$LANG]:-"#858585"}
-            BAR_WIDTH=$(awk -v p="$PERCENT" 'BEGIN{print p * 2.7}')
-            echo "  <rect x=\"15\" y=\"$Y\" width=\"$BAR_WIDTH\" height=\"18\" fill=\"$COLOR\" rx=\"3\"/>" >> top-langs.svg
-            echo "  <text x=\"$((BAR_WIDTH + 20))\" y=\"$((Y + 14))\" fill=\"white\" font-size=\"12\">$LANG ($PERCENT%)</text>" >> top-langs.svg
-            Y=$((Y + 25))
-          done
-
-          echo "</svg>" >> top-langs.svg
-
-          # --------------------------
-          # 4. 提交并推送文件到你的仓库
-          # --------------------------
+      # 提交并推送文件到你的仓库
+      - name: Commit and push
+        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add top-langs.svg
-          git commit -m "Update top languages card" || echo "No changes to commit"
+          git commit -m "Update static top languages card" || echo "No changes to commit"
           git push
-        shell: bash

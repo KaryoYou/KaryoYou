@@ -1,81 +1,30 @@
-name: Generate Top Languages Card
+name: Top Languages Card
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # 手动运行
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *" # 每日自动更新
 
 jobs:
-  build:
+  update-card:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Python
-        uses: actions/setup-python@v5
+      
+      # 专用Action，完美复刻github-readme-stats效果
+      - uses: Readme-Workflows/top-langs-action@v1.0.0
         with:
-          python-version: "3.11"
+          username: KaryoYou
+          layout: compact
+          theme: dark
+          hide_border: true
+          show_percentage: true
+          output_file: top-langs.svg
 
-      - name: Generate top-langs.svg
-        run: |
-          cat > gen.py << 'EOF'
-          import requests
-          import json
-
-          USERNAME = "KaryoYou"
-          API_URL = f"https://api.github.com/users/{USERNAME}/repos?per_page=100"
-          COLORS = {
-              "Python": "#3572A5",
-              "C#": "#178600",
-              "JavaScript": "#F1E05A",
-              "HTML": "#E34C26",
-              "CSS": "#563D7C",
-              "Shell": "#89E051",
-              "Java": "#B07219",
-              "Go": "#00ADD8"
-          }
-
-          res = requests.get(API_URL)
-          repos = res.json()
-          langs = {}
-          for repo in repos:
-              lang = repo.get("language")
-              if lang:
-                  langs[lang] = langs.get(lang, 0) + 1
-
-          sorted_langs = sorted(langs.items(), key=lambda x: x[1], reverse=True)[:5]
-          total = sum(count for _, count in sorted_langs)
-          width, height = 300, 150
-          bar_height = 20
-          bar_y_start = 30
-          svg_parts = [
-              f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}">',
-              f'<rect width="{width}" height="{height}" fill="#1e1e1e" rx="5"/>',
-              f'<text x="10" y="20" fill="white" font-size="14" font-weight="bold">Top Languages</text>'
-          ]
-
-          y = bar_y_start
-          for lang, count in sorted_langs:
-              percent = (count / total) * 100
-              bar_width = (percent / 100) * (width - 20)
-              color = COLORS.get(lang, "#858585")
-              svg_parts.append(f'<rect x="10" y="{y}" width="{bar_width}" height="{bar_height}" fill="{color}" rx="3"/>')
-              svg_parts.append(f'<text x="{bar_width + 15}" y="{y + 15}" fill="white" font-size="12">{lang} ({percent:.1f}%)</text>')
-              y += bar_height + 5
-
-          svg_parts.append('</svg>')
-          svg = "\n".join(svg_parts)
-          with open("top-langs.svg", "w", encoding="utf-8") as f:
-              f.write(svg)
-          EOF
-
-          python gen.py
-
-      - name: Commit and push
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add top-langs.svg
-          git commit -m "Update top languages" || exit 0
-          git push
+      # 提交文件到仓库
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update Top Languages
+          file_pattern: top-langs.svg

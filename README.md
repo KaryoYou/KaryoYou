@@ -40,7 +40,7 @@
         <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=KaryoYou&theme=github" height="140"/>
       </td>
       <td colspan="5" align="center" style="border:0; padding:10px 0;">
-        <img src="https://raw.githubusercontent.com/KaryoYou/KaryoYou/main/metrics.svg" height="150"/>
+        <img src="https://raw.githubusercontent.com/KaryoYou/KaryoYou/main/top-langs.svg" height="150"/>
       </td>
     </tr>
     <!--提交记录贪吃蛇-->

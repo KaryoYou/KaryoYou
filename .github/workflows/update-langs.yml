@@ -1,30 +1,55 @@
-name: Top Languages Card
+name: Generate Official Top Languages Card
 on:
-  workflow_dispatch:  # 手动运行
+  workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *" # 每日自动更新
+    - cron: "0 0 * * *"
 
 jobs:
-  update-card:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      
-      # 专用Action，完美复刻github-readme-stats效果
-      - uses: Readme-Workflows/top-langs-action@v1.0.0
+      # 1. 拉取你自己的仓库
+      - name: Checkout self repo
+        uses: actions/checkout@v4
         with:
-          username: KaryoYou
-          layout: compact
-          theme: dark
-          hide_border: true
-          show_percentage: true
-          output_file: top-langs.svg
+          path: self
 
-      # 提交文件到仓库
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+      # 2. 拉取 github-readme-stats 官方仓库
+      - name: Checkout github-readme-stats
+        uses: actions/checkout@v4
         with:
-          commit_message: Update Top Languages
-          file_pattern: top-langs.svg
+          repository: anuraghazra/github-readme-stats
+          path: github-readme-stats
+
+      # 3. 配置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: github-readme-stats/package-lock.json
+
+      # 4. 安装依赖并启动本地服务
+      - name: Install dependencies and start server
+        run: |
+          cd github-readme-stats
+          npm install
+          nohup npm run dev > server.log 2>&1 &
+          sleep 10
+
+      # 5. 本地请求生成 top-langs.svg（和你要的参数完全一致）
+      - name: Generate card
+        run: |
+          curl -s "http://localhost:3000/api/top-langs/?username=KaryoYou&layout=compact&hide_border=true&theme=dark&show_percent=true" -o self/top-langs.svg
+
+      # 6. 提交并推送到你自己的仓库
+      - name: Commit and push
+        working-directory: self
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add top-langs.svg
+          git commit -m "Update official top-langs card" || exit 0
+          git push

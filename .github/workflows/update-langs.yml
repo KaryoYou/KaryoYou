@@ -1,0 +1,30 @@
+name: Update Language Stats
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天 0 点自动更新
+  workflow_dispatch:      # 也可以手动触发
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate language stats
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          user: KaryoYou
+          template: classic
+          config_timezone: Asia/Shanghai
+          plugin_languages: yes
+          plugin_languages_layout: compact
+          plugin_languages_hide_border: true
+          plugin_languages_show_percent: true
+          plugin_languages_limit: 8
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add metrics.svg
+          git commit -m "Update language stats" || echo "No changes to commit"
+          git push

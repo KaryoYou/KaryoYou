@@ -10,12 +10,67 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Download top-langs.svg
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate top-langs.svg
         run: |
-          curl -s "https://github-readme-stats.vercel.app/api/top-langs/?username=KaryoYou&layout=compact&hide_border=true&theme=dark&show_percent=true" -o top-langs.svg
+          cat > gen.py << 'EOF'
+          import requests
+          import json
+
+          USERNAME = "KaryoYou"
+          API_URL = f"https://api.github.com/users/{USERNAME}/repos?per_page=100"
+          COLORS = {
+              "Python": "#3572A5",
+              "C#": "#178600",
+              "JavaScript": "#F1E05A",
+              "HTML": "#E34C26",
+              "CSS": "#563D7C",
+              "Shell": "#89E051",
+              "Java": "#B07219",
+              "Go": "#00ADD8"
+          }
+
+          res = requests.get(API_URL)
+          repos = res.json()
+          langs = {}
+          for repo in repos:
+              lang = repo.get("language")
+              if lang:
+                  langs[lang] = langs.get(lang, 0) + 1
+
+          sorted_langs = sorted(langs.items(), key=lambda x: x[1], reverse=True)[:5]
+          total = sum(count for _, count in sorted_langs)
+          width, height = 300, 150
+          bar_height = 20
+          bar_y_start = 30
+          svg_parts = [
+              f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}">',
+              f'<rect width="{width}" height="{height}" fill="#1e1e1e" rx="5"/>',
+              f'<text x="10" y="20" fill="white" font-size="14" font-weight="bold">Top Languages</text>'
+          ]
+
+          y = bar_y_start
+          for lang, count in sorted_langs:
+              percent = (count / total) * 100
+              bar_width = (percent / 100) * (width - 20)
+              color = COLORS.get(lang, "#858585")
+              svg_parts.append(f'<rect x="10" y="{y}" width="{bar_width}" height="{bar_height}" fill="{color}" rx="3"/>')
+              svg_parts.append(f'<text x="{bar_width + 15}" y="{y + 15}" fill="white" font-size="12">{lang} ({percent:.1f}%)</text>')
+              y += bar_height + 5
+
+          svg_parts.append('</svg>')
+          svg = "\n".join(svg_parts)
+          with open("top-langs.svg", "w", encoding="utf-8") as f:
+              f.write(svg)
+          EOF
+
+          python gen.py
 
       - name: Commit and push
         run: |

@@ -1,4 +1,4 @@
-name: Simple Top Languages Card
+name: Final Top Languages Card
 on:
   workflow_dispatch:  # 支持手动运行
   schedule:
@@ -10,74 +10,86 @@ jobs:
     permissions:
       contents: write  # 必须开启，否则无法提交文件
     steps:
-      # 拉取你自己的仓库
+      # 拉取你自己的仓库（仅这一个第三方Action，官方维护，绝对稳定）
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 拉取完整历史，避免提交失败
 
-      # 只用基础命令生成SVG，无任何额外依赖
-      - name: Generate Top Languages SVG
+      # 用系统自带的Python3生成SVG（无任何额外依赖，不用装requests/Node.js）
+      - name: Generate SVG with built-in Python
         run: |
-          # --------------------------
-          # 配置你的信息
-          # --------------------------
-          USER="KaryoYou"
-          OUTPUT_FILE="top-langs.svg"
-          THEME_BG="#1e1e1e"  # 深色背景，和github-readme-stats一致
-          THEME_TEXT="white"
+          cat > gen.py << 'EOF'
+          import json
+          from urllib.request import urlopen
+          from collections import Counter
 
           # --------------------------
-          # 1. 从GitHub API获取仓库语言统计
+          # 配置信息（和github-readme-stats效果一致）
           # --------------------------
-          echo "Fetching languages..."
-          LANG_DATA=$(curl -s "https://api.github.com/users/$USER/repos?per_page=100")
-          # 统计每种语言的出现次数，过滤空值
-          LANGS=$(echo "$LANG_DATA" | grep -o '"language": "[^"]*"' | cut -d'"' -f4 | grep -v '^$' | sort | uniq -c | sort -nr)
-          # 计算总仓库数（用于百分比）
-          TOTAL=$(echo "$LANGS" | awk '{sum += $1} END {print sum}')
-          # 取前5个语言（和compact布局一致）
-          TOP5=$(echo "$LANGS" | head -5)
+          USERNAME = "KaryoYou"
+          OUTPUT_FILE = "top-langs.svg"
+          # 语言颜色（和github-readme-stats原版完全一致）
+          LANG_COLORS = {
+              "Python": "#3572A5",
+              "C#": "#178600",
+              "JavaScript": "#F1E05A",
+              "HTML": "#E34C26",
+              "CSS": "#563D7C",
+              "Shell": "#89E051",
+              "Java": "#B07219",
+              "Go": "#00ADD8",
+              "C++": "#f34b7d",
+              "C": "#555555"
+          }
 
           # --------------------------
-          # 2. 定义语言颜色（和github-readme-stats原版一致）
+          # 1. 从GitHub API获取仓库语言（仅请求官方API，不会被墙）
           # --------------------------
-          declare -A COLORS=(
-            ["Python"]="#3572A5"
-            ["C#"]="#178600"
-            ["JavaScript"]="#F1E05A"
-            ["HTML"]="#E34C26"
-            ["CSS"]="#563D7C"
-            ["Shell"]="#89E051"
-            ["Java"]="#B07219"
-            ["Go"]="#00ADD8"
-          )
+          url = f"https://api.github.com/users/{USERNAME}/repos?per_page=100"
+          with urlopen(url) as response:
+              repos = json.load(response)
+
+          # 统计语言出现次数（过滤空值）
+          languages = [repo["language"] for repo in repos if repo["language"]]
+          lang_counts = Counter(languages)
+          top_langs = lang_counts.most_common(5)  # 取前5个语言，和compact布局一致
+          total = sum(count for _, count in top_langs)
 
           # --------------------------
-          # 3. 生成SVG（和你要的卡片格式1:1复刻）
+          # 2. 生成SVG（1:1复刻github-readme-stats的top-langs卡片）
           # --------------------------
-          cat > $OUTPUT_FILE << EOF
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
-  <rect width="300" height="150" fill="$THEME_BG" rx="5"/>
-  <text x="15" y="25" fill="$THEME_TEXT" font-size="14" font-weight="bold">Top Languages</text>
-EOF
+          svg = [
+              '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">',
+              '  <rect width="300" height="150" fill="#1e1e1e" rx="5"/>',  # 深色背景，无边框
+              '  <text x="15" y="25" fill="white" font-size="14" font-weight="bold">Top Languages</text>'
+          ]
 
-          # 生成每个语言的条形和百分比文字
-          Y=40
-          echo "$TOP5" | while read COUNT LANG; do
-            PERCENT=$(awk -v c="$COUNT" -v t="$TOTAL" 'BEGIN{printf "%.1f", c/t*100}')
-            COLOR=${COLORS[$LANG]:-"#858585"}
-            BAR_WIDTH=$(awk -v p="$PERCENT" 'BEGIN{print p * 2.7}') # 百分比转像素（适配300宽）
-            echo "  <rect x=\"15\" y=\"$Y\" width=\"$BAR_WIDTH\" height=\"18\" fill=\"$COLOR\" rx=\"3\"/>" >> $OUTPUT_FILE
-            echo "  <text x=\"$((BAR_WIDTH + 20))\" y=\"$((Y + 14))\" fill=\"$THEME_TEXT\" font-size=\"12\">$LANG ($PERCENT%)</text>" >> $OUTPUT_FILE
-            Y=$((Y + 25))
-          done
+          # 生成每个语言的条形和百分比
+          y_pos = 40
+          for lang, count in top_langs:
+              percent = (count / total) * 100
+              bar_width = percent * 2.7  # 百分比转像素（适配300宽卡片）
+              color = LANG_COLORS.get(lang, "#858585")  # 找不到的语言用灰色
 
-          echo "</svg>" >> $OUTPUT_FILE
+              svg.append(f'  <rect x="15" y="{y_pos}" width="{bar_width}" height="18" fill="{color}" rx="3"/>')
+              svg.append(f'  <text x="{bar_width + 20}" y="{y_pos + 14}" fill="white" font-size="12">{lang} ({percent:.1f}%)</text>')
+              y_pos += 25
 
-          # --------------------------
-          # 4. 提交并推送文件到你的仓库
-          # --------------------------
+          svg.append('</svg>')
+
+          # 保存SVG文件
+          with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+              f.write("\n".join(svg))
+          EOF
+
+          # 运行脚本（系统自带Python3，不用额外安装）
+          python3 gen.py
+
+      # 提交并推送生成的SVG到你的仓库（仅用git原生命令，无第三方Action）
+      - name: Commit and push
+        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add $OUTPUT_FILE
+          git add top-langs.svg
           git commit -m "Update top languages card" || echo "No changes to commit"
           git push
-        shell: bash

@@ -1,55 +1,83 @@
-name: Generate Official Top Languages Card
+name: Simple Top Languages Card
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # 支持手动运行
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *" # 每天自动更新一次
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # 必须开启，否则无法提交文件
     steps:
-      # 1. 拉取你自己的仓库
-      - name: Checkout self repo
-        uses: actions/checkout@v4
-        with:
-          path: self
+      # 拉取你自己的仓库
+      - uses: actions/checkout@v4
 
-      # 2. 拉取 github-readme-stats 官方仓库
-      - name: Checkout github-readme-stats
-        uses: actions/checkout@v4
-        with:
-          repository: anuraghazra/github-readme-stats
-          path: github-readme-stats
-
-      # 3. 配置 Node.js 环境
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: "20"
-          cache: "npm"
-          cache-dependency-path: github-readme-stats/package-lock.json
-
-      # 4. 安装依赖并启动本地服务
-      - name: Install dependencies and start server
+      # 只用基础命令生成SVG，无任何额外依赖
+      - name: Generate Top Languages SVG
         run: |
-          cd github-readme-stats
-          npm install
-          nohup npm run dev > server.log 2>&1 &
-          sleep 10
+          # --------------------------
+          # 配置你的信息
+          # --------------------------
+          USER="KaryoYou"
+          OUTPUT_FILE="top-langs.svg"
+          THEME_BG="#1e1e1e"  # 深色背景，和github-readme-stats一致
+          THEME_TEXT="white"
 
-      # 5. 本地请求生成 top-langs.svg（和你要的参数完全一致）
-      - name: Generate card
-        run: |
-          curl -s "http://localhost:3000/api/top-langs/?username=KaryoYou&layout=compact&hide_border=true&theme=dark&show_percent=true" -o self/top-langs.svg
+          # --------------------------
+          # 1. 从GitHub API获取仓库语言统计
+          # --------------------------
+          echo "Fetching languages..."
+          LANG_DATA=$(curl -s "https://api.github.com/users/$USER/repos?per_page=100")
+          # 统计每种语言的出现次数，过滤空值
+          LANGS=$(echo "$LANG_DATA" | grep -o '"language": "[^"]*"' | cut -d'"' -f4 | grep -v '^$' | sort | uniq -c | sort -nr)
+          # 计算总仓库数（用于百分比）
+          TOTAL=$(echo "$LANGS" | awk '{sum += $1} END {print sum}')
+          # 取前5个语言（和compact布局一致）
+          TOP5=$(echo "$LANGS" | head -5)
 
-      # 6. 提交并推送到你自己的仓库
-      - name: Commit and push
-        working-directory: self
-        run: |
+          # --------------------------
+          # 2. 定义语言颜色（和github-readme-stats原版一致）
+          # --------------------------
+          declare -A COLORS=(
+            ["Python"]="#3572A5"
+            ["C#"]="#178600"
+            ["JavaScript"]="#F1E05A"
+            ["HTML"]="#E34C26"
+            ["CSS"]="#563D7C"
+            ["Shell"]="#89E051"
+            ["Java"]="#B07219"
+            ["Go"]="#00ADD8"
+          )
+
+          # --------------------------
+          # 3. 生成SVG（和你要的卡片格式1:1复刻）
+          # --------------------------
+          cat > $OUTPUT_FILE << EOF
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150">
+  <rect width="300" height="150" fill="$THEME_BG" rx="5"/>
+  <text x="15" y="25" fill="$THEME_TEXT" font-size="14" font-weight="bold">Top Languages</text>
+EOF
+
+          # 生成每个语言的条形和百分比文字
+          Y=40
+          echo "$TOP5" | while read COUNT LANG; do
+            PERCENT=$(awk -v c="$COUNT" -v t="$TOTAL" 'BEGIN{printf "%.1f", c/t*100}')
+            COLOR=${COLORS[$LANG]:-"#858585"}
+            BAR_WIDTH=$(awk -v p="$PERCENT" 'BEGIN{print p * 2.7}') # 百分比转像素（适配300宽）
+            echo "  <rect x=\"15\" y=\"$Y\" width=\"$BAR_WIDTH\" height=\"18\" fill=\"$COLOR\" rx=\"3\"/>" >> $OUTPUT_FILE
+            echo "  <text x=\"$((BAR_WIDTH + 20))\" y=\"$((Y + 14))\" fill=\"$THEME_TEXT\" font-size=\"12\">$LANG ($PERCENT%)</text>" >> $OUTPUT_FILE
+            Y=$((Y + 25))
+          done
+
+          echo "</svg>" >> $OUTPUT_FILE
+
+          # --------------------------
+          # 4. 提交并推送文件到你的仓库
+          # --------------------------
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add top-langs.svg
-          git commit -m "Update official top-langs card" || exit 0
+          git add $OUTPUT_FILE
+          git commit -m "Update top languages card" || echo "No changes to commit"
           git push
+        shell: bash

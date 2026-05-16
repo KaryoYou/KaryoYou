@@ -23,7 +23,7 @@ jobs:
         uses: lowlighter/metrics@latest
         with:
           filename: top-langs.svg
-          output: ./dist/  # 强制指定输出目录为 dist
+          output: ./  # 输出目录
           user: ${{ github.repository_owner }}
           token: ${{ secrets.GITHUB_TOKEN }}
           template: classic

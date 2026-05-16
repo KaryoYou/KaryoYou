@@ -14,11 +14,16 @@ jobs:
     timeout-minutes: 10
     
     steps:
-      # 生成 Top Languages 卡片（成熟稳定Action，和snake一样可靠）
+      # 1. 先手动创建 dist 目录（避免目录不存在的错误）
+      - name: Prepare dist directory
+        run: mkdir -p dist
+
+      # 2. 生成 Top Languages 卡片（指定输出到 dist 目录）
       - name: generate top-langs.svg
         uses: lowlighter/metrics@latest
         with:
-          filename: dist/top-langs.svg
+          filename: top-langs.svg
+          output: ./dist/  # 强制指定输出目录为 dist
           user: ${{ github.repository_owner }}
           token: ${{ secrets.GITHUB_TOKEN }}
           template: classic
@@ -29,7 +34,7 @@ jobs:
           config_background: transparent
           config_color_scheme: dark
 
-      # 推送到 output 分支（和你的snake代码完全一样）
+      # 3. 推送到 output 分支（和你的 Snake 代码完全一样）
       - name: push top-langs.svg to output branch
         uses: crazy-max/ghaction-github-pages@v2.6.0
         with:
